@@ -1,48 +1,48 @@
-import * as React from 'react';
-import * as redux from 'redux';
-import './App.css';
-import { connect } from 'react-redux';
+import "./App.css"
 
-import * as minesweeper from './minesweeper';
-import * as store from './store';
+import * as React from "react"
+import { connect } from "react-redux"
+import * as redux from "redux"
 
-import Status from './Status';
-import Cell from './Cell';
+import * as minesweeper from "../logic/minesweeper"
+import * as store from "../redux/store"
+import Cell from "./Cell"
+import Status from "./Status"
 
 const DEFAULT_OPTIONS = {
   mineCount: 10,
   width: 10,
   height: 10,
-};
+}
 
 type StateProps = minesweeper.Game & {
   grid: string[][]
-};
+}
 
 type DispatchProps = {
-  flagLocation: typeof store.actions.flagLocation,
-  revealLocation: typeof store.actions.revealLocation,
-  resetGame: typeof store.actions.resetGame,
-};
+  flagLocation: typeof store.actions.flagLocation
+  revealLocation: typeof store.actions.revealLocation
+  resetGame: typeof store.actions.resetGame
+}
 
-type Props = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps
 
 class App extends React.Component<Props> {
   constructor(props: Props) {
-    super(props);
-    this.resetGame = this.resetGame.bind(this);
+    super(props)
+    this.resetGame = this.resetGame.bind(this)
   }
 
   componentDidMount() {
-    this.resetGame();
+    this.resetGame()
   }
 
   resetGame() {
-    this.props.resetGame(DEFAULT_OPTIONS);
+    this.props.resetGame(DEFAULT_OPTIONS)
   }
 
-  renderBoard() {
-    const { grid, cellsByXy } = this.props;
+  renderBoard(): JSX.Element {
+    const { grid, cellsByXy } = this.props
     return (
       <div className="board">
         {grid.map((row, y) => (
@@ -58,7 +58,7 @@ class App extends React.Component<Props> {
           </div>
         ))}
       </div>
-    );
+    )
   }
 
   render() {
@@ -69,30 +69,33 @@ class App extends React.Component<Props> {
           <code>click</code>: reveal; &nbsp;
           <code>ctrl + click</code>: flag / reveal
           <button onClick={this.resetGame}>
-            <i className="fa fa-refresh"></i> restart
+            <i className="fa fa-refresh" /> restart
           </button>
         </p>
         {this.renderBoard()}
         <Status {...this.props} />
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = (state: minesweeper.Game): StateProps => {
-  const { width, height } = state;
-  const grid: string[][] = [];
+  const { width, height } = state
+  const grid: string[][] = []
   for (let y = 0; y < height; y++) {
-    grid[y] = [];
+    grid[y] = []
     for (let x = 0; x < width; x++) {
-      grid[y][x] = [x, y].toString();
+      grid[y][x] = [x, y].toString()
     }
   }
 
-  return { ...state, grid };
-};
+  return { ...state, grid }
+}
 
 const mapDispatchToProps = (dispatch: redux.Dispatch<store.Action>): DispatchProps =>
-  redux.bindActionCreators(store.actions, dispatch);
+  redux.bindActionCreators(store.actions, dispatch)
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
