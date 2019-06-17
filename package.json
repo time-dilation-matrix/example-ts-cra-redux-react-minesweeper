@@ -1,5 +1,5 @@
 {
-  "name": "ts-minesweeper",
+  "name": "example-ts-cra-redux-react-minesweeper",
   "version": "0.1.0",
   "private": true,
   "author": "RJ Zaworski <rj@rjzaworski.com> (https://rjzaworski.com)",
